@@ -1,0 +1,266 @@
+/* *** ALLGEMEIN *** */
+
+#rex-page-simple-shop .rex-table {
+	margin-bottom: 10px;
+}
+#rex-page-simple-shop #form-module {
+	padding:20px 20px 20px 40px;
+}
+
+
+#rex-page-simple-shop #form-module fieldset{
+	border:1px solid #333;
+	margin:0;
+	padding:20px;
+	padding-bottom:10px;
+	border:1px solid #d5eeff;
+}
+
+
+#rex-page-simple-shop #form-module legend {
+	margin-left:-5px;
+	padding:3px 5px;
+	background-color:#d5eeff;
+	color:#216491;
+	font-size:14px;
+}
+
+
+#rex-page-simple-shop #form-module label {
+	float:left;
+	width:160px;
+	line-height:15px;
+	padding-top:3px;
+	margin-bottom:10px;
+}
+
+#rex-page-simple-shop table select, 
+#rex-page-simple-shop #form-module select {
+	border:1px solid #ccc;
+	padding:2px;
+	width:350px;
+}
+
+#rex-page-simple-shop #form-module ul.form_warning {
+	color:#f90;
+	margin-bottom:20px;
+}
+
+#rex-page-simple-shop #form-module ul.form_warning li{
+	list-style-type: square;
+	margin-left:15px;
+}
+
+
+#rex-page-simple-shop .xform p, 
+#rex-page-simple-shop .xform .formbe_mediapool, 
+#rex-page-simple-shop .xform .formbe_table {
+  padding: 10px 0 !important;
+	border-bottom: 1px solid #fff;
+}
+#rex-page-simple-shop .xform .formbe_mediapool p, 
+#rex-page-simple-shop .xform .formbe_table p {
+  padding: 0 !important;
+	border-bottom: 0;
+}
+#rex-page-simple-shop .xform label {
+  width: 200px;
+}
+#rex-page-simple-shop .xform .rex-widget {
+  margin-left: 200px;
+  width: 430px;
+}
+#rex-page-simple-shop .xform .rex-widget p {
+  padding: 0 !important;
+}
+#rex-page-simple-shop .xform .rex-widget p.rex-widget-icons {
+  display: block;
+  float: right;
+  width: 80px;
+}
+#rex-page-simple-shop .formbe_table table {
+  margin-left: 200px;
+}
+
+
+#rex-page-simple-shop p.formcaptcha input,
+#rex-page-simple-shop p.formtextarea textarea,
+#rex-page-simple-shop p.formselect select,
+#rex-page-simple-shop p.formtext input,
+#rex-page-simple-shop p.formpassword input,
+#rex-page-simple-shop input.formtext,
+#rex-page-simple-shop textarea {
+	border:1px solid #ccc;
+	padding:2px;
+	width:350px;
+}
+
+#rex-page-simple-shop p.formcaptcha input,
+#rex-page-simple-shop p.formselect select,
+#rex-page-simple-shop p.formtext input,
+#rex-page-simple-shop p.formpassword input,
+#rex-page-simple-shop input.formtext {
+	height:15px;
+}
+
+/* ***************************** TEXTAREA */
+#rex-page-simple-shop textarea {
+	height:80px;
+}
+
+/* ***************************** TEXT */
+#rex-page-simple-shop p.formtext {
+	clear:both;
+	padding-bottom:0px;
+	margin-bottom:5px;
+}
+
+/* ***************************** HTML */
+#rex-page-simple-shop p.formhtml {
+	margin-top:10px;
+	margin-bottom:10px;
+	font-weight:bold;
+}
+
+/* ***************************** TEXTSELECT */
+#rex-page-simple-shop p.formselect {
+	clear:both;
+	padding-bottom:0px;
+	margin-bottom:10px;
+}
+
+#rex-page-simple-shop p.formselect select {
+	height:20px;
+	padding:1px;
+	width:256px;
+}
+
+/* ***************************** CAPTCHA */
+
+#rex-page-simple-shop p.formcaptcha {
+	clear:both;
+	padding-bottom:10px;
+	margin-bottom:10px;
+}
+
+#rex-page-simple-shop p.formcaptcha label{
+
+}
+
+#rex-page-simple-shop p.formcaptcha input{
+	margin-top:4px;
+}
+
+#rex-page-simple-shop p.formcaptcha span{
+	display:block;
+}
+
+/* ***************************** TEXTSELECT */
+#rex-page-simple-shop p.formtextarea {
+	clear:both;
+	padding-bottom:0px;
+	margin-bottom:10px;
+}
+
+#rex-page-simple-shop p.formtextarea textarea {
+	height:80px;
+}
+
+/* ***************************** CHECKBOX */
+
+#rex-page-simple-shop p.formcheckbox {
+	clear:both;
+	padding:0;
+	margin-bottom:10px;
+	height:22px;
+}
+
+#rex-page-simple-shop p.formcheckbox input {
+	float:left;
+	margin:5px;
+	margin-left:135px;
+}
+
+#rex-page-simple-shop p.formcheckbox label {
+	float:left;
+	margin-left:10px;
+	width:250px;
+	line-height:23px;
+}
+
+/* ***************************** BE MEDIAPOOL */
+
+#rex-page-simple-shop p.formbe_mediapool {
+	clear:both;
+	padding:0;
+	margin-bottom:10px;
+	height:22px;
+}
+
+#rex-page-simple-shop p.formbe_mediapool input {
+	float:left;
+	margin:0px;
+}
+
+#rex-page-simple-shop p.formbe_mediapool label {
+	float:left;
+	width:160px;
+}
+
+#rex-page-simple-shop p.formbe_mediapool span {
+	margin-left:10px;
+}
+
+/* ***************************** RADIO */
+
+#rex-page-simple-shop p.formradio {
+	clear:both;
+	padding:0;
+	margin-bottom:10px;
+	height:22px;
+}
+
+#rex-page-simple-shop p.formradio input {
+	float:left;
+	margin:5px;
+}
+
+#rex-page-simple-shop p.formradio label {
+	float:right;
+	width:460px;
+	line-height:23px;
+}
+
+/* ***************************** LINE */
+
+#rex-page-simple-shop p.formline {
+	height:1px;
+	border-bottom:1px solid #ccc;
+	margin-bottom:10px;
+}
+
+
+
+/* ***************************** SUBMIT */
+
+#rex-page-simple-shop p.formsubmit label {
+	clear:both;
+	width:160px;
+}
+
+/* ***************************** ORDER STATI */
+#rex-page-simple-shop span.status_0 {
+  color: purple;
+}
+
+#rex-page-simple-shop span.status_1 {
+  color: orange;
+}
+
+#rex-page-simple-shop span.status_2 {
+  color: green;
+}
+
+#rex-page-simple-shop span.status_3 {
+  color: blue;
+}

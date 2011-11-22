@@ -1,0 +1,56 @@
+simple_shop = Simple Shop
+catverwaltung = Products
+bestverwaltung = Orders
+header_article = Product
+header_relations = Productrelations
+header_priority = Prio
+header_edit = edit
+header_status = status
+header_article_edit = edit/delete product
+mainconfig = main config
+header_order_edit = view order
+header_order = order
+status_0 = waiting
+status_1 = in process
+status_2 = finnished
+header_relation_add = add relation
+
+error = An error occured.
+product_added = Product added
+product_saved = products saved
+product_deleted = products deleted
+back_overview = back to overview
+languages = Languages
+please_choose_a_cat = please choose a category
+product_overview = product overview
+show = show
+show_all = show all
+show_wo_cat = show all without category
+
+edit_products = edit article
+products = products
+
+product_id = product id
+product_name = name
+product_cats = categores
+product_desc = description
+product_ddesc =  description / more detailed
+
+product_price = price [i.e. 150.50]
+product_price_old = old price [i.e. 210.70]
+product_price_order = packaging [i.e. 5.10]
+product_tax = Tac (in %) [i.e. 16.00]
+product_image = image
+relations = relations
+relation = relation
+relation_msg = to use relation you have to save this product first
+status = status
+save_back = save and back
+save = save
+
+instock = available
+stockinfo = stockinfo (available in 7 days .. )
+
+date = Datum
+customer = Kunde
+orders = Bestellungen
