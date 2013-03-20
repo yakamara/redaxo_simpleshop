@@ -1,10 +1,7 @@
 /* *** ALLGEMEIN *** */
 
-#rex-page-simple-shop .rex-table {
-	margin-bottom: 10px;
-}
 #rex-page-simple-shop #form-module {
-	padding:20px 20px 20px 40px;
+	padding: 10px 0 20px 15px;
 }
 
 
@@ -25,7 +22,6 @@
 	font-size:14px;
 }
 
-
 #rex-page-simple-shop #form-module label {
 	float:left;
 	width:160px;
@@ -34,12 +30,11 @@
 	margin-bottom:10px;
 }
 
-#rex-page-simple-shop table select, 
-#rex-page-simple-shop #form-module select {
+/* #rex-page-simple-shop #form-module select {
 	border:1px solid #ccc;
 	padding:2px;
 	width:350px;
-}
+} */
 
 #rex-page-simple-shop #form-module ul.form_warning {
 	color:#f90;
@@ -52,37 +47,6 @@
 }
 
 
-#rex-page-simple-shop .xform p, 
-#rex-page-simple-shop .xform .formbe_mediapool, 
-#rex-page-simple-shop .xform .formbe_table {
-  padding: 10px 0 !important;
-	border-bottom: 1px solid #fff;
-}
-#rex-page-simple-shop .xform .formbe_mediapool p, 
-#rex-page-simple-shop .xform .formbe_table p {
-  padding: 0 !important;
-	border-bottom: 0;
-}
-#rex-page-simple-shop .xform label {
-  width: 200px;
-}
-#rex-page-simple-shop .xform .rex-widget {
-  margin-left: 200px;
-  width: 430px;
-}
-#rex-page-simple-shop .xform .rex-widget p {
-  padding: 0 !important;
-}
-#rex-page-simple-shop .xform .rex-widget p.rex-widget-icons {
-  display: block;
-  float: right;
-  width: 80px;
-}
-#rex-page-simple-shop .formbe_table table {
-  margin-left: 200px;
-}
-
-
 #rex-page-simple-shop p.formcaptcha input,
 #rex-page-simple-shop p.formtextarea textarea,
 #rex-page-simple-shop p.formselect select,
@@ -90,8 +54,8 @@
 #rex-page-simple-shop p.formpassword input,
 #rex-page-simple-shop input.formtext,
 #rex-page-simple-shop textarea {
-	border:1px solid #ccc;
-	padding:2px;
+	/* border:1px solid #ccc; */
+	/* padding:2px; */
 	width:350px;
 }
 
@@ -100,7 +64,7 @@
 #rex-page-simple-shop p.formtext input,
 #rex-page-simple-shop p.formpassword input,
 #rex-page-simple-shop input.formtext {
-	height:15px;
+	/* height:15px; */
 }
 
 /* ***************************** TEXTAREA */
@@ -112,7 +76,7 @@
 #rex-page-simple-shop p.formtext {
 	clear:both;
 	padding-bottom:0px;
-	margin-bottom:5px;
+	margin-bottom:10px;
 }
 
 /* ***************************** HTML */
@@ -129,11 +93,11 @@
 	margin-bottom:10px;
 }
 
-#rex-page-simple-shop p.formselect select {
+/* #rex-page-simple-shop p.formselect select {
 	height:20px;
 	padding:1px;
 	width:256px;
-}
+} */
 
 /* ***************************** CAPTCHA */
 
@@ -210,7 +174,6 @@
 #rex-page-simple-shop p.formbe_mediapool span {
 	margin-left:10px;
 }
-
 /* ***************************** RADIO */
 
 #rex-page-simple-shop p.formradio {
@@ -263,4 +226,80 @@
 
 #rex-page-simple-shop span.status_3 {
   color: blue;
+}
+
+/* ***************************** MISC */
+
+#rex-page-simple-shop p.other {
+	display: block;
+    margin-bottom: 11px;
+	font-style: italic;
+}
+
+#rex-page-simple-shop p.rex-button a, 
+#rex-page-simple-shop input.submit, 
+#rex-page-simple-shop div.rex-form input.rex-form-submit {
+	margin-top: 10px;
+}
+
+#rex-page-simple-shop #simple-shop-left,
+#rex-page-simple-shop #simple-shop-right {
+	margin-top: 0px;
+	margin-left: 10px;
+	margin-bottom: 15px;
+}
+
+
+#rex-page-simple-shop #simple-shop-left {
+	float: left;
+	margin-right: 25px;
+}
+
+#rex-page-simple-shop #simple-shop-right input {
+	float: left;
+	margin-top: 0px;
+	margin-right: 10px;
+}
+
+#rex-page-simple-shop #form-module label {
+	width: 175px;
+}
+
+#rex-page-simple-shop a.add-row {
+	display: inline-block;
+	margin-top: 5px;
+}
+
+#rex-page-simple-shop table.xform_table {
+    border-collapse: separate;
+	border-spacing: 0px;
+}
+
+#rex-page-simple-shop table.xform_table th {
+	font-weight: normal;
+}
+
+#rex-page-simple-shop table.xform_table td,
+#rex-page-simple-shop table.xform_table th {
+	padding-right: 4px;
+	padding-bottom: 4px;
+}
+
+#rex-page-simple-shop .multipleselect {
+	margin-bottom: 10px;
+	width: 357px;
+}
+
+#rex-page-simple-shop p.rex-wdgt-fld {
+	float: left;
+	margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+#rex-page-simple-shop p.formbe_mediapool input {
+	width: 240px;
+}
+
+#rex-page-simple-shop table.xform_table td input:not([type="submit"]):not([type="button"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]) {
+	width: 140px;
 }

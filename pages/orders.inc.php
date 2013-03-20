@@ -1,54 +1,58 @@
 <?php
 
+$page = 'simple_shop';
+$subpage = 'orders';
+
+
+
+$summe_heute = 0;
+$summe_monat = 0;
+$summe_gesamt = 0;
+
 // Umsatz heute
 
-$gg = new rex_sql;
+$gg = new rex_sql();
 // $gg->debugsql = 1;
 
-
-
-
-echo '<table class="rex-table">';
-echo '<colgroup><col width="200" /><col width="*" /></colgroup>';
-echo '<tbody>';
-
-echo '<tr><th colspan="2">Umsatz heute:</th></tr>';
+echo '<table class="rex-table"><tbody>';
 
 $gg->setQuery('select SUM(price_overall) as p from rex_shop_order where date LIKE "'.date("Y-m-d").'%"');
-$summe_heute = $gg->getValue("p");
-echo '<tr><th>'.date('d.m.Y').'</th><td class="rex-algn-rght"><b>'.rex_shop_utils::formatPrice($summe_heute).'</b></td></tr>';
+
+if ($gg->getRows() > 0) {
+	$summe_heute = $gg->getValue("p");
+}
+
+echo '<tr><td>Umsatz heute:</td><td><b>'.rex_shop_utils::formatPrice($summe_heute).'</b></td></tr>';
 
 
-echo '<tr><th colspan="2">Umsätze dieses Jahr:</th></tr>';
 for($i=0;$i<date("m");$i++)
 {
 	$ii = str_pad($i+1, 2, "0", STR_PAD_LEFT);
 	$gg->setQuery('select SUM(price_overall) as p from rex_shop_order where date LIKE "'.date("Y-").$ii.'%"');
-	$summe_monat = $gg->getValue("p");
-	echo '<tr><th>'.$ii.''.date(". Y").':</th><td class="rex-algn-rght"><b>'.rex_shop_utils::formatPrice($summe_monat).'</b></td></tr>';
+	
+	if ($gg->getRows() > 0) {
+		$summe_monat = $gg->getValue("p");
+	}
+
+	echo '<tr><td>Umsatz ('.$ii.''.date(". Y").'):</td><td><b>'.rex_shop_utils::formatPrice($summe_monat).'</b></td></tr>';
 }
 
 $gg->setQuery('select SUM(price_overall) as p from rex_shop_order where date LIKE "'.date("Y").'%"');
-$summe_gesamt = $gg->getValue("p");
-echo '<tr><th>Gesamtumsatz ('.date("Y").'):</th><td class="rex-algn-rght"><b>'.rex_shop_utils::formatPrice($summe_gesamt).'</b></td></tr>';
 
-
-echo '<tr><th colspan="2">Umsätze nach Jahr:</th></tr>';
-$gg->setQuery('SELECT date FROM rex_shop_order ORDER BY date LIMIT 1');
-$year = substr($gg->getValue('date'), 0, 4);
-for($i=$year; $i<=date("Y"); $i++)
-{
-	$gg->setQuery('select SUM(price_overall) as p from rex_shop_order where date LIKE "'.$i.'%"');
-	$summe_year = $gg->getValue("p");
-	echo '<tr><th>'.$i.':</th><td class="rex-algn-rght"><b>'.rex_shop_utils::formatPrice($summe_year).'</b></td></tr>';
+if ($gg->getRows() > 0) {
+	$summe_gesamt = $gg->getValue("p");
 }
 
+echo '<tr><td>Gesamtumsatz ('.date("Y").'):</td><td><b>'.rex_shop_utils::formatPrice($summe_gesamt).'</b></td></tr>';
 
-$gg->setQuery('select SUM(price_overall) as p from rex_shop_order');
-$summe_gesamt = $gg->getValue("p");
-echo '<tr><th>Gesamtumsatz bisher:</th><td class="rex-algn-rght"><b>'.rex_shop_utils::formatPrice($summe_gesamt).'</b></td></tr>';
 
-echo '</tbody></table><br />';
+
+echo '</table><br />';
+
+
+
+
+
 
 
 
@@ -151,27 +155,16 @@ foreach($stats_range as $stat)
 <table class="rex-table"><tbody><tr><td><a href="index.php?page=simple_shop&amp;subpage=orders&amp;function=delete&amp;order_id='. $order_id .'" onclick="return confirm(\'Wirklich löschen\');">- Bestellung löschen</a></td></tr></table>
 ';
 
-}
-else if ($function == "")
-{
+} else if ($function == "") {
 
   $sql->setQuery("SELECT *, DATE_FORMAT(date, '%d.%m.%Y %H:%i') as datum FROM rex_shop_order ORDER BY date desc");
 
-
-
-
-
-
-
-$params = array(
-	"page" => $mypage,
-	"subpage" => $subpage,
-	);
-
-echo rex_shop_blaettern(&$sql, 0, $params, 50);
-
-
-
+  $params = array(
+  	"page" => $page,
+  	"subpage" => $subpage,
+  	);
+  
+  echo rex_shop_blaettern($sql, 0, $params, 10);
 
   echo "
 <table class=rex-table border=0 cellpadding=5 cellspacing=1>
@@ -179,6 +172,7 @@ echo rex_shop_blaettern(&$sql, 0, $params, 50);
     <th></th>
     <th>Datum</th>
     <th>Besteller</th>
+    <th>Bestellsumme</th>
     <th>Status</th>
     <th>Func</th>
   </tr>";
@@ -189,18 +183,18 @@ echo rex_shop_blaettern(&$sql, 0, $params, 50);
     echo "
     <tr>
 	    <td class=icon><a href='". $url . "'><img src=\"media/document.gif\" border=\"0\" height=\"16\" width=\"16\"></a></td>
-	    <td>" . $sql->getValue("datum") . "</td>
+	    <td width=100>" . $sql->getValue("datum") . "</td>
 	    <td>" . $sql->getValue("name") . "</td>
-	    <td width=153>" . $stats[$sql->getValue("status")] . "</td>
+	    <td>" . rex_shop_utils::formatPrice($sql->getValue('price_overall')) . "</td>
+	    <td width=100>" . $stats[$sql->getValue("status")] . "</td>
 	    <td width=250 ><a href='". $url . "'>" . $I18N_SIMPLE_SHOP->msg("header_order_edit") . "</td>
     </tr>
     <tr>
         <td></td>
-        <td colspan=4><i>". substr(strip_tags($sql->getValue('mail_text')), 0, 200) ."</i></td>
+        <td colspan=5><i>". substr(strip_tags($sql->getValue('mail_text')), 0, 200) ."</i></td>
     </tr>";
 
     $sql->next();
   }
   echo "</table>";
 }
-?>

@@ -3,29 +3,21 @@
 class rex_xform_simple_shop_showhide extends rex_xform_abstract
 {
 
-	function enterObject()
-	{	
+  function enterObject()
+  {
+    if ($this->params['simple_shop_warning'] && $this->getElement(1) == 'start') {
+      $output = '<div style="display: none">';
+    }
+    elseif ($this->params['simple_shop_warning'] && $this->getElement(1) == 'end') {
+      $output = '</div>';
+    }
 
-    $output = '';
+    $this->params['form_output'][$this->getId()] = $output;
 
-		if ($this->params["shop_warning"] && $this->getElement(1) == "start")
-		{
-			$output = '<div style="display:none">';
-		
-		}elseif ($this->params["shop_warning"] && $this->getElement(1) == "end")
-		{
-			$output = '</div>';
-		
-		}
+  }
 
-		$this->params["form_output"][$this->getId()] = $output;
-		
-	}
-	
-	function getDescription()
-	{
-		return "simple_shop_showhide -> Beispiel: simple_shop_showhide|start/end";
-	}
+  function getDescription()
+  {
+    return 'simple_shop_showhide -> Beispiel: simple_shop_showhide|start/end';
+  }
 }
-
-?>

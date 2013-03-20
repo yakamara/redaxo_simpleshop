@@ -1,0 +1,75 @@
+objparams|Error-occured|Bitte überprüfen Sie Ihre Angaben und korrigieren Sie diese gegebenenfalls.
+
+simple_shop_basket
+
+simple_shop_showhide|start
+
+html||<p>In Kürze erhalten Sie eine automatische E-Mail-Bestätigung Ihrer Bestellung an die angegebene Adresse.</p>
+
+html||<p class="highlight">In einer zweiten E-Mail erhalten Sie eine Rechnung zu Ihrer Bestellung, mit der Bitte um Überweisung. Ganz Eilige können auch bereits vorab überweisen auf:
+php|<?php echo '<br><br>BANKNAME'; ?>
+php|<?php echo '<br>BLZ BANKLEITZAHL'; ?>
+php|<?php echo '<br>Konto KONTONUMMER'; ?>
+html||</p>
+
+html||<h3>Rechnungsadresse</h3>
+
+select|anrede|Anrede *|Frau=Frau,Herr=Herr
+text|titel|Titel
+text|vorname|Vorname *
+text|name|Name*
+text|strasse|Straße *
+html||<div class="frm-plzort">
+text|plz|PLZ *
+text|ort|Ort *
+html||</div>
+text|telefon|Telefon
+text|telefax|Telefax
+text|email|E-Mail *
+textarea|bemerkung|Bemerkungen
+
+html||<div class="split"></div>
+
+html||<h3>Lieferadresse (Falls abweichend von der Rechnungsadresse)</h3>
+
+select|liefer_anrede|Anrede *|Frau=Frau,Herr=Herr
+text|liefer_titel|Titel
+text|liefer_vorname|Vorname
+text|liefer_name|Name
+text|liefer_strasse|Straße
+html||<div class="frm-plzort">
+text|liefer_plz|PLZ
+text|liefer_ort|Ort
+html||</div>
+
+html||<div class="split"></div>
+
+checkbox|agb|Hiermit bestätige ich, die AGBs, die Lieferbedingungen und Versandinformationen sowie die Widerrufsbelehrung gelesen zu haben und akzeptiere diese in vollen Umfang.|1||[no_db]
+
+html||<div class="s xform-indent"><ul>
+php|<?php global $REX; echo '<li><a href="javascript:getPopup(\''.rex_getUrl($REX['ADDON']['simple_shop']['settings']['article_id_terms_and_conditions']).'\')">AGBs lesen</a></li>'; ?>
+php|<?php global $REX; echo '<li><a href="javascript:getPopup(\''.rex_getUrl($REX['ADDON']['simple_shop']['settings']['article_id_shipping_rates']).'\')">Lieferbedingungen und Versandinformationen lesen</a></li>'; ?>
+php|<?php global $REX; echo '<li><a href="javascript:getPopup(\''.rex_getUrl($REX['ADDON']['simple_shop']['settings']['article_id_cancellation_policy']).'\')">Widerrufsbelehrung lesen</a></li>'; ?>
+html||</ul></div>
+
+
+html||<div class="split"></div>
+
+objparams|submit_btn_show|0
+submit|label|Zahlungspflichtig bestellen|[no_db]
+
+
+simple_shop_showhide|end
+
+validate|empty|anrede|Bitte geben Sie Ihre Anrede ein.
+validate|empty|vorname|Bitte geben Sie Ihren Vornamen ein.
+validate|empty|name|Bitte geben Sie Ihren Namen ein.
+validate|empty|strasse|Bitte geben Sie Ihre Straße ein.
+validate|empty|plz|Bitte geben Sie Ihre PLZ ein.
+validate|empty|ort|Bitte geben Sie Ihren Ort ein.
+validate|empty|email|Bitte geben Sie Ihre E-Mail ein.
+validate|email|email|Bitte geben Sie eine korrekte E-Mail ein.
+validate|compare_value|agb|1|Sie müssen unsere AGBs bestätigen
+
+action|simple_shop_order|order_verkaeufer||shop@simpleshop.de|||no_db
+action|simple_shop_order|order_kaeufer|email||rex_shop_order

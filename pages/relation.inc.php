@@ -1,30 +1,30 @@
+<?php
 
-<?php 
 
-$setting_shop_category = 44;
+$REX['PAGE_NO_NAVI'] = true;
+require $REX['INCLUDE_PATH'].'/layout/top.php';
 
-$REX["PAGE_NO_NAVI"] = true;
-require $REX['INCLUDE_PATH'].'/layout/top.php'; 
-
-$mypage = "simple_shop";
-$prod_id = '';
-$rel_id = rex_request('rel_id', 'int');
+$mypage = 'simple_shop';
+$subpage = 'relations';
+$product_id = '';
+$relation_id = rex_request('relation_id', 'int');
 $category_id = rex_request('category_id', 'int');
 
 
 
-rex_title($I18N_SIMPLE_SHOP->msg("header_relations"));
+rex_title($I18N->msg('simple_shop_header_relations'));
 
 
 
-// ----------------------->  Suche der Artikel über die Kategorien
+// ----------------------->  Suche der Artikel Ã¼ber die Kategorien
 
 $c = new rex_category_select(false, false, true, false);
 $c->setName('category_id');
 $c->setSelected($category_id);
 $c->setSize(1);
+$c->setAttribute('onchange', 'this.form.submit();');
 $c->setStyle("width:200px;");
-$c->setRootId($setting_shop_category);
+$c->setRootId($REX['ADDON']['simple_shop']['settings']['root_category_id']);
 
 echo '
 <style type="text/css">
@@ -43,10 +43,16 @@ echo '
   }
 </style>
 
-<table class="rex-table" width="100%">
+<div class="rex-addon-output">
+<table class="rex-table">
+	  <colgroup>
+	    <col width="40" />
+	    <col width="*" />
+	    <col width="153" />
+	  </colgroup>
   <tr>
-    <th class="icon" width="30">&nbsp;</th>
-    <th colspan="2">'.$I18N_SIMPLE_SHOP->msg("product_overview").'</th>
+    <th class="rex-icon" width="30">&nbsp;</th>
+    <th colspan="2">'.$I18N->msg('simple_shop_product_overview').'</th>
   </tr>
   
   <tr>
@@ -55,10 +61,10 @@ echo '
       <form action="index.php" method="post" name="catsearch">
         <input type="hidden" name="page" value="'.$mypage.'" />
         <input type="hidden" name="subpage" value="'.$subpage.'" />
-        <input type="hidden" name="prod_id" value="'.$prod_id.'" />
-        <input type="hidden" name="rel_id" value="'.$rel_id.'" />
+        <input type="hidden" name="product_id" value="'.$product_id.'" />
+        <input type="hidden" name="relation_id" value="'. $relation_id.'" />
         '.$c->get().'
-        <input type="submit" name="cs" value="'.$I18N_SIMPLE_SHOP->msg("show").'" />
+        <input type="submit" name="cs" value="' . $I18N->msg('simple_shop_show') . '" />
       </form>
     </td>
   
@@ -66,51 +72,53 @@ echo '
       <form action="index.php" method="post" name="catsearch">
         <input type="hidden" name="page" value="'.$mypage.'" />
         <input type="hidden" name="subpage" value="'.$subpage.'" />
-        <input type="hidden" name="prod_id" value="'.$prod_id.'" />
-         <input type="hidden" name="rel_id" value="'.$rel_id.'" />
-        <input type="hidden" name="articlesearch" value="" />
-        <input type="submit" name="cs" value="'.$I18N_SIMPLE_SHOP->msg("show_all").'" />
+        <input type="hidden" name="product_id" value="'.$product_id.'" />
+        <input type="hidden" name="relation_id" value="'.$relation_id.'" />
+        <input type="hidden" name="category_id" value="0" />
+        <input type="submit" name="cs" value="' . $I18N->msg('simple_shop_show_all') . '" />
       </form>
     </td>
   </tr>
-</table>';
+</table>
+</div>';
 
-if($category_id > 0)
-{
+if(isset($category_id)) {
   //---------------------------------- Liste der Artikel
-	
-	$products = rex_shop_category :: getProductList($category_id, false);
 
-	echo '<table class="rex-table">';
-  foreach($products as $product)
-  {	
+  $products = rex_shop_category :: getProductList($category_id, false);
+
+  echo '<div class="rex-addon-output">';
+  echo '
+  <table class="rex-table">
+	  <colgroup>
+	    <col width="40" />
+	    <col width="200" />
+	    <col width="*" />
+	    <col width="153" />
+	  </colgroup>
+	  <thead>
+      <tr>
+        <th class="rex-icon"><span class="rex-i-element rex-i-article-add"></span></th>
+        <th>'.$I18N->msg('simple_shop_header_article').'</th>
+        <th>'.$I18N->msg('simple_shop_short_description').'</th>
+        <th>'.$I18N->msg('simple_shop_header_status_function').'</th>
+      </tr>
+     </thead>
+     <tbody>
+
+  ';
+  foreach($products as $product) {
+    $name = $product->getModuleProductName( $REX['ADDON']['simple_shop']['settings']['module_relationlist_scheme'] );
     echo '
       <tr>
-      <td>
-        <img src="media/document.gif" height="16" width="16" />
-      </td>
-      <td>
-        '.$product->getName().'
-      </td>
-      <td>
-        <a href="javascript:opener.setREXShop(\''.$rel_id.'\',\''.$product->getId().'\',\''.$product->getName().'\');self.close();")>'.$I18N_SIMPLE_SHOP->msg("header_relation_add").'</a>
-      </td>
-    </tr>';
-    
+        <td class="rex-icon"><span class="rex-i-element rex-i-article"></span></td>
+        <td>' . $product->getName() . '</td>
+				<td>' . htmlspecialchars($product->getValue('description_short')) . '</td>
+        <td><a href="javascript:opener.selectRelationlist(\''.$product->getId().'\',\'' . $name . '\');")>' . $I18N->msg('simple_shop_header_relation_add') . '</a></td>
+      </tr>';
   }
-  echo '</table>';
+  echo '</tbody></table>';
+  echo '</div>';
 }
 
-?>
-
-
-<?php 
-
-require $REX['INCLUDE_PATH'].'/layout/bottom.php'; 
-
-?>
-
-
-
-
-
+require $REX['INCLUDE_PATH'].'/layout/bottom.php';

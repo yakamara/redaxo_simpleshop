@@ -19,7 +19,7 @@ class rex_shop
 	function getAmountGroupValue($id)
 	{
 		$r = array();
-		$gg = new rex_sql;
+		$gg = new rex_sql();
 		$gg->setQuery('select * from rex_shop_product_amount_group where id='.$id);
 		if ($gg->getRows()==1)
 		{

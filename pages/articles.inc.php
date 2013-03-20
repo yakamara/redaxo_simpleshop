@@ -1,92 +1,91 @@
 <?php
 
-$setting_shop_category = 44;
+error_reporting(E_ALL);
 
-//echo '<div class="rex-addon-output">';
+/*if (!rex_request('function') == 'edit') {
+	echo '<h1>'.$I18N_SIMPLE_SHOP->msg("product_overview").'</h1>';
+}*/
 
+$refresh_seconds = $REX['ADDON']['simple_shop']['settings']['refresh_seconds'];
+$page_url = 'index.php?page=simple_shop';
 
-$function = "";
-if (isset($_REQUEST["function"])) $function = $_REQUEST["function"];
-
-$product_id = "";
-if (isset($_REQUEST["product_id"])) $product_id = $_REQUEST["product_id"];
-
+$function   = rex_request('function', 'string');
+$product_id = rex_request('product_id', 'int');
 
 
 
 
 // ***************************************************************************** Produkt Kategorieliste
 
-// -----------------------> zugriff auf categorien
-function add_cat_options( &$select, &$cat, &$cat_ids, $groupName = '') {
-    if( empty( $cat)) {
-        return;
-    }
+$root_category_id = isset($REX['ADDON']['simple_shop']['settings']['root_category_id']) ? $REX['ADDON']['simple_shop']['settings']['root_category_id'] : 0;
+$category_id = rex_request('category_id', 'int');
 
-    $cat_ids[] = $cat->getId();
-    $select->addOption($cat->getName(),$cat->getId(), $cat->getId(),$cat->getParentId());
-    $childs = $cat->getChildren();
 
-    if ( is_array( $childs)) {
-        foreach ( $childs as $child) {
-            add_cat_options( $select, $child, $cat_ids, $cat->getName());
-        }
-    }
+if ($category_id == $root_category_id) {
+  $category_id = 0;
 }
 
-// ----------------------->  Suche der Artikel über die Kategorien
+if ($category_id > 0) {
+    $page_url .= '&category_id=' . $category_id;
+}
 
-$category_id = 0;
-$category_id = '';
-if (isset($_REQUEST["category_id"])) $category_id = $_REQUEST["category_id"];
-
-$sel_cat = new rex_select;
+$sel_cat = new rex_category_select(false, false, false, false);
 $sel_cat->setSize(1);
-$sel_cat->setAttribute('class',"rxshp-wdth");
-$sel_cat->setName("category_id");
-$sel_cat->setId("category_id");
+$sel_cat->setAttribute('class', 'rxshp-wdth');
+$sel_cat->setAttribute('onchange', 'this.form.submit();');
+$sel_cat->setName('category_id');
+$sel_cat->setId('rex-root-category-id');
+$sel_cat->setRootId($root_category_id);
 $sel_cat->setSelected($category_id);
-$STYLE= "onchange='document.forms[0].submit();'";
-$sel_cat->addOption("Bitte Kategorie auswählen","0");
-$cat_ids = array();
-if ($rootCat = OOCategory::getCategoryById($setting_shop_category))
-{
-    add_cat_options( $sel_cat, $rootCat, $cat_ids);
-}
 
-echo '<h2>'.$I18N_SIMPLE_SHOP->msg("product_overview").'</h2>';
+
 
 echo '
-<table class="rex-table">
-	<tr>
-		<td class="rex-icon"></td>
-		<td style="vertical-align: middle;">
-      <form action="index.php" method="post" name="catsearch">
-        <input type="hidden" name="page" value="'.$mypage.'" />
-        <input type="hidden" name="clang" value="'.$clang.'" />
-	   	  '.$sel_cat->get().'
-  		  <input type="submit" name="cs" value="'.$I18N_SIMPLE_SHOP->msg("show").'" />
-			</form>
-		</td>
-    <td style="vertical-align: middle;">
-      <form action="index.php" method="post" name="catsearch">
-        <input type="hidden" name="clang" value="'.$clang.'" />
-        <input type="hidden" name="page" value="'.$mypage.'" />
-        <input type="hidden" name="category_id" value="" />
-        <input type="submit" name="cs" value="'.$I18N_SIMPLE_SHOP->msg("show_all").'" />
-      </form>
-    </td>
-    
-    <td style="vertical-align: middle;">
-      <form action="index.php" method="post" name=catsearch>
-        <input type="hidden" name="clang" value="'.$clang.'" />
-        <input type="hidden" name="page" value="'.$mypage.'" />
-        <input type="hidden" name="category_id" value="0" />
-        <input type=submit name="cs" value="'.$I18N_SIMPLE_SHOP->msg("show_wo_cat").'" />
-      </form>
-    </td>
- 	</tr>
-</table>';
+<div class="rex-addon-output">
+
+  <div class="rex-area-col-2">
+    <div class="rex-area-col-a">
+      <div class="rex-area-content">
+        <form action="index.php" method="post">
+          <input type="hidden" name="page" value="' . $mypage . '" />
+          <input type="hidden" name="clang" value="' . $clang . '" />
+
+          ' . $sel_cat->get() . '
+
+          <input type="submit" value="' . $I18N->msg('simple_shop_show') . '" />
+        </form>
+      </div>
+    </div>
+
+    <div class="rex-area-col-b">
+      <div class="rex-area-content">
+        <div class="rex-area-col-2">
+
+          <div class="rex-area-col-a">
+            <form action="index.php" method="post">
+              <input type="hidden" name="clang" value="'.$clang.'" />
+              <input type="hidden" name="page" value="'.$mypage.'" />
+              <input type="hidden" name="category_id" value="0" />
+              <input type="submit" value="' . $I18N->msg('simple_shop_show_all') . '" />
+            </form>
+          </div>
+
+          <div class="rex-area-col-b">
+            <form action="index.php" method="post">
+              <input type="hidden" name="clang" value="'.$clang.'" />
+              <input type="hidden" name="page" value="'.$mypage.'" />
+              <input type="hidden" name="category_id" value="-1" />
+              <input type="submit" value="' . $I18N->msg('simple_shop_show_without_category') . '" />
+            </form>
+          </div>
+        </div>
+
+      </div>
+     </div>
+
+   </div>
+</div>
+';
 
 
 
@@ -101,89 +100,60 @@ echo '
 
 $form_data = '
 
+fieldset||' . $I18N->msg('simple_shop_product') . '
+
 hidden|page|simpleshop|REQUEST|no_db
 hidden|category_id|'.$category_id.'|REQUEST|no_db
 hidden|vt|-
 
 select|status|Status|Online=1;Offline=0|0
 
-textarea|name|Produktbezeichnung
-text|article_number|Produkt/Bestellnummer
-
-simple_shop_category|categories|Kategorien|69
-
-textarea|description_short|Kurzbeschreibung
-textarea|description_long|Langbeschreibung
-textarea|description_format|Beschreibung des Formates
-
-text|ve|VE / Verpackungseinheit
-
-select|vat|Steuersatz|19%=19;7%=7|19
-
-be_table|prices|(Staffel)preise in Euro z.B. "11.23" |2|Menge,Preis/VE
-
-text|order_min|Minimum Anzahl bei Bestellung
-text|order_max|Maximale Anzahl bei einer Bestellung
-
-be_table|order_amounts|Auswahlmöglichkeiten bei Anzahl|2|Anzahl,Beschreibung
-
-be_mediapool|image|Bild
-
-text|prio|Priorität
-
-select_multiple_sql|rex_shop_rel_product_discountgroup|product_id|group_id|Rabattgruppen:|select * from rex_shop_product_discount_group where status>0 order by name|id|name
-
-select_single_sql|amount_group_id|Mindestbestellmenge Gruppe:|--- keine Auswahl ---|select * from rex_shop_product_amount_group order by name|id|name
-
-textarea|keywords|Suchbegriffe
-
-validate|notEmpty|name|Bitte geben Sie die Produktbezeichnung ein
-
-';
+text|prio|' . $I18N->msg('simple_shop_priority') . '
 
 
-$form_data = '
+textarea|name|' . $I18N->msg('simple_shop_product_name') . '
+text|article_number|' . $I18N->msg('simple_shop_product_code') . '
 
-hidden|page|simpleshop|REQUEST|no_db
-hidden|category_id|'.$category_id.'|REQUEST|no_db
-hidden|vt|-
+simple_shop_category|categories|' . $I18N->msg('simple_shop_categories') . '
 
-select|status|Status|Online=1,Offline=0|0
+fieldset||' . $I18N->msg('simple_shop_description') . '
 
-textarea|name|Produktbezeichnung
-text|article_number|Produkt/Bestellnummer
+textarea|description_short|' . $I18N->msg('simple_shop_short_description') . '
+textarea|description_long|' . $I18N->msg('simple_shop_long_description') . '
+textarea|description_format|' . $I18N->msg('simple_shop_description_of_the_format') . '
 
-simple_shop_category|categories|Kategorien|44
+text|ve|' . $I18N->msg('simple_shop_package_unit') . '
 
-textarea|description_short|Kurzbeschreibung
-textarea|description_long|Langbeschreibung
-textarea|description_format|Beschreibung des Formates
+select|vat|' . $I18N->msg('simple_shop_vat') . '|' . $REX['ADDON']['simple_shop']['settings']['tax_rates'] . '|
 
-text|ve|VE / Verpackungseinheit
+fieldset||' . $I18N->msg('simple_shop_prices') . '
 
-select|vat|Steuersatz|19%=19,7%=7|19
+be_table|prices|' . $I18N->msg('simple_shop_price_label') . '|2|' . $I18N->msg('simple_shop_amount') . ',' . $I18N->msg('simple_shop_price_per_package_unit') . '
 
-be_table|prices|(Staffel)preise in Euro z.B. "11.23" |2|Menge,Preis/VE
+fieldset||' . $I18N->msg('simple_shop_amount_per_order') . '
 
-text|order_min|Minimum Anzahl bei Bestellung
-text|order_max|Maximale Anzahl bei einer Bestellung
+text|order_min|' . $I18N->msg('simple_shop_order_min') . '
+text|order_max|' . $I18N->msg('simple_shop_order_max') . '
 
-be_table|order_amounts|Auswahlmöglichkeiten bei Anzahl|2|Anzahl,Beschreibung
+be_table|order_amounts|' . $I18N->msg('simple_shop_order_amounts') . '|2|' . $I18N->msg('simple_shop_amount') . ',' . $I18N->msg('simple_shop_description') . '
 
-be_mediapool|image|Bild
+fieldset||' . $I18N->msg('simple_shop_images') . '
 
-text|prio|Priorität
+be_mediapool|image|' . $I18N->msg('simple_shop_image') . '
+be_medialist|images|' . $I18N->msg('simple_shop_images') . '
 
-select_multiple_sql|rex_shop_rel_product_discountgroup|product_id|group_id|Rabattgruppen:|select * from rex_shop_product_discount_group where status>0 order by name|id|name
+fieldset||' . $I18N->msg('simple_shop_other') . '
 
-select_single_sql|amount_group_id|Mindestbestellmenge Gruppe:|--- keine Auswahl ---|select * from rex_shop_product_amount_group order by name|id|name
+be_manager_relation|discount_group_ids|' . $I18N->msg('simple_shop_discount_groups') . '|rex_shop_product_discount_group|name|1|1
 
-textarea|keywords|Suchbegriffe
+select_sql|amount_group_id|' . $I18N->msg('simple_shop_amount_group') . '|SELECT id, name FROM rex_shop_product_amount_group ORDER BY name|||1|--- ' . $I18N->msg('simple_shop_no_selection') . ' ---
 
-validate|notEmpty|name|Bitte geben Sie die Produktbezeichnung ein
+textarea|keywords|' . $I18N->msg('simple_shop_keywords') . '
 
+validate|empty|name|' . $I18N->msg('simple_shop_product_name_error') . '
 
 ';
+
 
 // text|price|Sichtbarer Preis in Cent
 // text|price_old|Alter Preis in Cent
@@ -195,60 +165,53 @@ validate|notEmpty|name|Bitte geben Sie die Produktbezeichnung ein
 // text|stock_in|Produkt auf Lager
 // textarea|stock_info|Lagerinfo
 
-$form_data = trim(str_replace("<br />","",rex_xform::unhtmlentities($form_data)));
-$xform = new rex_xform;
+$form_data = trim(str_replace('<br />', '', rex_xform::unhtmlentities($form_data)));
+$xform = new rex_xform();
 $xform->setDebug(TRUE);
 $xform->setFormData($form_data);
-$xform->objparams["actions"][] = array("type" => "showtext","elements" => array("action","showtext",'','<p style="padding:20px;color:#f90;">Vielen Dank für die Aktualisierung</p>',"",),);
+$xform->objparams["actions"][] = array('type' => 'showtext', 'elements' => array('action', 'showtext', '', rex_info( $I18N->msg('simple_shop_message_updated') ), '', ),);
 
 
-/*
-$xform->objparams["actions"][] = array("type" => "fulltext_value","elements" => array("action","fulltext_value","vt","status,name,article_number,description_short,description_long,description_format,vat,prices,keywords"),);
-*/
-
-
-
-
-// $xform->setRedaxoVars('',''); 
-// if ("REX_VALUE[10]" != "") $xform->setGetdata(true); // Datein vorher auslesen ?
-// $xform->setObjectparams("answertext","REX_VALUE[6]"); // Antworttext
-$xform->setObjectparams("main_table","rex_shop_product"); // für db speicherungen und unique abfragen
+$xform->setObjectparams('main_table', 'rex_shop_product'); // fuer db speicherungen und unique abfragen
 
 
 
 
 
+echo '<div class="rex-addon-output">';
 
 
 // ***************************************************************************** Produkt kopieren
 
-if ($function=="copy")
-{
-	$_REQUEST["function"] = "add";
+if ($function == 'copy') {
+
+  $_REQUEST['function'] = "add";
+  
 	$form_data .= '
 hidden|function|add|REQUEST|no_db';
 
-	$form_data = trim(str_replace("<br />","",rex_xform::unhtmlentities($form_data)));
-	$xform = new rex_xform;
+	$form_data = trim(str_replace('<br />', '', rex_xform::unhtmlentities($form_data)));
+	$xform = new rex_xform();
 	// $xform->setDebug(TRUE);
 	$xform->setFormData($form_data);
 
-	$xform->objparams["actions"][] = array("type" => "showtext","elements" => array("action","showtext",'','<p style="padding:20px;color:#f90;">Vielen Dank für die Aktualisierung</p>',"",),);
+  $xform->objparams['actions'][] = array('type' => 'showtext', 'elements' => array('action', 'showtext', '', rex_info( $I18N->msg('simple_shop_message_product_added') . '<br /><br />' . $I18N->msg('simple_shop_redirect', $refresh_seconds, $page_url) ), '', ),);
 
-	$xform->objparams["actions"][] = array("type" => "fulltext_value","elements" => array("action","fulltext_value","vt","status,name,article_number,description_short,description_long,description_format,vat,prices,keywords"),);
+	$xform->objparams['actions'][] = array('type' => 'fulltext_value', 'elements' => array('action', 'fulltext_value', 'vt', 'status, name, article_number, description_short, description_long, description_format, vat, prices, keywords'),);
 
-	$xform->objparams["actions"][] = array("type" => "db","elements" => array("action","db","rex_shop_product","id=$product_id"),);
+	$xform->objparams['actions'][] = array('type' => 'db', 'elements' => array('action', 'db', 'rex_shop_product', 'id="' . $product_id . '"'),);
 
-	$xform->setObjectparams("main_id","$product_id");
-	$xform->setObjectparams("main_where","id=$product_id");
-	$xform->setObjectparams("main_table","rex_shop_product"); // für db speicherungen und unique abfragen
-	$xform->setObjectparams('getdata', true); // Datein vorher auslesen
+	$xform->setObjectparams('main_id', $product_id);
+	$xform->setObjectparams('main_where', 'id="' . $product_id . '"');
+	$xform->setObjectparams('main_table', 'rex_shop_product'); // fuer db speicherungen und unique abfragen
+	$xform->setObjectparams('getdata', true); // Dateien vorher auslesen
 
-  echo '<div id="rex-addon-editmode" class="rex-form">';
 	echo $xform->getForm();
-	echo '</div>';
 
-	// rex_xform::showHelp();
+  if ($xform->objparams['postactions_executed'] == 1) {
+    header('refresh:' . $refresh_seconds . '; url=' . $page_url);
+    exit();
+  }
 }
 
 
@@ -258,66 +221,66 @@ hidden|function|add|REQUEST|no_db';
 
 // ***************************************************************************** Produkt editieren
 
-if ($function=="edit")
-{
+if ($function == 'edit') {
 
 	$form_data .= '
 hidden|function|edit|REQUEST|no_db
 hidden|product_id|'.$product_id.'|REQUEST|no_db';
 
-	$form_data = trim(str_replace("<br />","",rex_xform::unhtmlentities($form_data)));
-	$xform = new rex_xform;
-//	$xform->setDebug(TRUE);
+  $form_data = trim(str_replace('<br />', '', rex_xform::unhtmlentities($form_data)));
+	$xform = new rex_xform();
+	// $xform->setDebug(TRUE);
 	$xform->setFormData($form_data);
 
-	$xform->objparams["actions"][] = array("type" => "showtext","elements" => array("action","showtext",'','<p style="padding:20px;color:#f90;">Vielen Dank für die Aktualisierung</p>',"",),);
+  $xform->objparams['actions'][] = array('type' => 'showtext', 'elements' => array('action', 'showtext', '', rex_info( $I18N->msg('simple_shop_message_product_updated') . '<br /><br />' . $I18N->msg('simple_shop_redirect', $refresh_seconds, $page_url) ), '', ),);
 
-	$xform->objparams["actions"][] = array("type" => "fulltext_value","elements" => array("action","fulltext_value","vt","status,name,article_number,description_short,description_long,description_format,vat,prices,keywords"),);
+  $xform->objparams['actions'][] = array('type' => 'fulltext_value', 'elements' => array('action', 'fulltext_value', 'vt', 'status, name, article_number, description_short, description_long, description_format, vat, prices, keywords'),);
 
-	$xform->objparams["actions"][] = array("type" => "db","elements" => array("action","db","rex_shop_product","id=$product_id"),);
+  $xform->objparams['actions'][] = array('type' => 'db', 'elements' => array('action', 'db', 'rex_shop_product', 'id="' . $product_id . '"'),);
 
-	$xform->setObjectparams("main_id","$product_id");
-	$xform->setObjectparams("main_where","id=$product_id");
-	$xform->setObjectparams("main_table","rex_shop_product"); // für db speicherungen und unique abfragen
-//	$xform->setGetdata(true); // Datein vorher auslesen
-	$xform->setObjectparams('getdata', true); // Datein vorher auslesen
+  $xform->setObjectparams('main_id', $product_id);
+  $xform->setObjectparams('main_where', 'id="' . $product_id . '"');
+  $xform->setObjectparams('main_table', 'rex_shop_product'); // fuer db speicherungen und unique abfragen
+  $xform->setObjectparams('getdata', true); // Dateien vorher auslesen
 
-  echo '<div id="rex-addon-editmode" class="rex-form">';
-	echo $xform->getForm();
-	echo '</div>';
+    echo $xform->getForm();
 
-	// rex_xform::showHelp();
+  if ($xform->objparams['postactions_executed'] == 1) {
+    header('refresh:' . $refresh_seconds . '; url=' . $page_url);
+    exit();
+  }
 }
 
 
 
 
-// ***************************************************************************** Produkt hinzufügen
+// ***************************************************************************** Produkt hinzuf�gen
 
-if ($function=="add")
-{
+if ($function == 'add') {
 
 	$form_data .= '
 hidden|function|add|REQUEST|no_db';
 
-	$form_data = trim(str_replace("<br />","",rex_xform::unhtmlentities($form_data)));
-	$xform = new rex_xform;
-//	$xform->setDebug(TRUE);
+  $form_data = trim(str_replace('<br />', '', rex_xform::unhtmlentities($form_data)));
+	$xform = new rex_xform();
+	//$xform->setDebug(TRUE);
 	$xform->setFormData($form_data);
 
-	$xform->objparams["actions"][] = array("type" => "showtext","elements" => array("action","showtext","",'<p style="padding:20px;color:#f90;">Vielen Dank für die Aktualisierung</p>',"",),);
+  $xform->objparams['actions'][] = array('type' => 'showtext', 'elements' => array('action', 'showtext', '', rex_info( $I18N->msg('simple_shop_message_product_added') . '<br /><br />' . $I18N->msg('simple_shop_redirect', $refresh_seconds, $page_url) ), '', ),);
 
-	$xform->objparams["actions"][] = array("type" => "fulltext_value","elements" => array("action","fulltext_value","vt","status,name,article_number,description_short,description_long,description_format,vat,prices,keywords"),);
+  $xform->objparams['actions'][] = array('type' => 'fulltext_value', 'elements' => array('action', 'fulltext_value', 'vt', 'status, name, article_number, description_short, description_long, description_format, vat, prices, keywords'),);
 
-	$xform->objparams["actions"][] = array("type" => "db","elements" => array("action","db","rex_shop_product"),);
+  $xform->objparams['actions'][] = array('type' => 'db', 'elements' => array('action', 'db', 'rex_shop_product'),);
 
-	$xform->setObjectparams("main_table","rex_shop_product"); // für db speicherungen und unique abfragen
-	
-  echo '<div id="rex-addon-editmode" class="rex-form">';
+	$xform->setObjectparams('main_table', 'rex_shop_product'); // fuer db speicherungen und unique abfragen
+
+
 	echo $xform->getForm();
-	echo '</div>';
 
-	// rex_xform::showHelp();
+  if ($xform->objparams['postactions_executed'] == 1) {
+    header('refresh:' . $refresh_seconds . '; url=' . $page_url);
+    exit();
+  }
 }
 
 
@@ -337,89 +300,100 @@ hidden|function|add|REQUEST|no_db';
 // ***************************************************************************** Produktliste
 
 //---------------------------------- Online / Offline switch
-if($function=="online_article"){
+if($function == 'online_article') {
 
-	$sql=new sql;
-	$sql->debugsql = 1;
-	$sql->setQuery('update rex_shop_product set status=1 WHERE id='.$product_id);
-	$function = "";
+	$sql = rex_sql::factory();
+  $sql->setTable('rex_shop_product');
+  $sql->setWhere('id = '.$product_id);
+  $sql->setValue('status', 1);
+  $sql->update();
+	$function = '';
 }
-if($function=="offline_article"){
+if($function == 'offline_article'){
 
-	$sql=new sql;
-	$sql->setQuery('update rex_shop_product set status=0 WHERE id='.$product_id);
-	$function = "";
+  $sql = rex_sql::factory();
+  $sql->setTable('rex_shop_product');
+  $sql->setWhere('id = '.$product_id);
+  $sql->setValue('status', 0);
+  $sql->update();
+	$function = '';
 }
-//----------------------------------- Artikel löschen
-if($function=="delete_article"){
+//----------------------------------- Artikel loeschen
+if($function == 'delete_article') {
 
-	$sql=new sql;
-	$sql->setQuery('delete from rex_shop_product WHERE id='.$product_id);
-$message_corpus = "";
-	if($sql->error == ""){
-		echo preg_replace("!##msg##!",  $I18N_SIMPLE_SHOP->msg("product_deleted"), $message_corpus);
-	}else{
-		echo preg_replace("!##msg##!",  $I18N_SIMPLE_SHOP->msg("error"), $message_corpus);
-	}
-	$function = "";
+  $sql = rex_sql::factory();
+  $sql->setTable('rex_shop_product');
+  $sql->setWhere('id = '.$product_id);
+  if ($sql->delete()) {
+    echo rex_info($I18N->msg('simple_shop_product_deleted'));
+  }
+  else {
+    echo rex_warning($I18N->msg('simple_shop_error') . ' ' . $I18N->msg('simple_shop_product_has_not_been_deleted'));
+  }
+
+	$function = '';
 }
 
+if($function == '') {
 
-
-if($function == "")
-{
-
-
-
-
-
-
-	echo	'<table class="rex-table">
-				<tr>
-					<th class=rex-icon><a href="index.php?page=simple_shop&function=add&category_id='.$category_id.'"><img src="media/document_plus.gif" width=16 height=16 border=0 title="'.$I18N->msg("article_add").'" alt="'.$I18N->msg("article_add").'"></a></th>
-					<th>Prio</th>
-					<th style="width: 300px;">'.$I18N_SIMPLE_SHOP->msg("header_article").'</th>
-					<th>'.$I18N_SIMPLE_SHOP->msg("header_edit").'</th>
-					<th>'.$I18N_SIMPLE_SHOP->msg("header_status").'</th>
-					<th>Func</th>
-				</tr>
+	echo	'
+	<table class="rex-table">
+	  <colgroup>
+	    <col width="40" />
+	    <col width="40" />
+	    <col width="200" />
+	    <col width="*" />
+	    <col width="51" />
+	    <col width="50" />
+	    <col width="50" />
+	    <col width="50" />
+	  </colgroup>
+	  <thead>
+      <tr>
+        <th class="rex-icon"><a class="rex-i-element rex-i-article-add" href="index.php?page=simple_shop&function=add&category_id=' . $category_id . '"><span class="rex-i-element-text">' . $I18N->msg('article_add') . '</span></a></th>
+        <th>'.$I18N->msg('simple_shop_header_priority').'</th>
+        <th>'.$I18N->msg('simple_shop_header_article').'</th>
+        <th>'.$I18N->msg('simple_shop_short_description').'</th>
+        <th colspan="4">'.$I18N->msg('simple_shop_header_status_function').'</th>
+      </tr>
+     </thead>
+     <tbody>
 				';
 
-	if(isset($category_id))
-	{
+	if(isset($category_id)) {
 	
 		//---------------------------------- Liste der Artikel
-		$articles = rex_shop_category::getProductList($category_id);
+		$articles = rex_shop_category::getProductList($category_id, true, 'prio, id');
 
-		foreach($articles as $article)
-		{
-			echo '
+		foreach($articles as $article) {
+      echo '
 				<tr>
 
-				<td><a href="index.php?page=simple_shop&function=edit_article&product_id='.$article->getId().'&category_id='.$category_id.'"><img src="media/document.gif" border="0" height="16" width="16"></a></td>
-				<td>'.htmlspecialchars($article->getPrio()).'</td>
-				<td>'.(htmlspecialchars($article->getName())).'</td>
-				<td><a href="index.php?page=simple_shop&function=edit&product_id='.$article->getId().'&category_id='.$category_id.'">Produkt editieren</td>';
-
-				
-				if ($article->getStatus() == 0)
-				{ 
-					$article_status = '<a href="index.php?page=simple_shop&product_id='.$article->getId().'&function=online_article&category_id='.$category_id.'" style="color:#f00;">'.$I18N->msg("status_offline").'</a>'; 
-				}elseif($article->getStatus() == 1){ 
-					$article_status = '<a href=index.php?page=simple_shop&product_id='.$article->getId().'&function=offline_article&category_id='.$category_id.'" style="color:#0f0;">'.$I18N->msg("status_online").'</a>'; 
-				}
-				echo '<td>'.$article_status.'</td>';
+				<td class="rex-icon"><a class="rex-i-element rex-i-article" href="index.php?page=simple_shop&function=edit_article&product_id='.$article->getId().'&category_id='.$category_id.'"><span class="rex-i-element-text">' . $I18N->msg('simple_shop_product_edit') . '</span></a></td>
+				<td>' . htmlspecialchars($article->getPrio()) . '</td>
+				<td>' . htmlspecialchars($article->getName()) . '</td>
+				<td>' . htmlspecialchars($article->getValue('description_short')) . '</td>
+				<td><a href="index.php?page=simple_shop&function=edit&product_id='.$article->getId().'&category_id='.$category_id.'">' . $I18N->msg('simple_shop_edit') . '</td>';
 
 
-				echo '<td>
-					<a href="index.php?page=simple_shop&function=delete_article&product_id='.$article->getId().'&category_id='.$category_id.'">löschen</a>
-					| <a href="index.php?page=simple_shop&function=copy&product_id='.$article->getId().'&category_id='.$category_id.'">kopieren</td>';
+      echo '<td><a href="index.php?page=simple_shop&function=copy&product_id='.$article->getId().'&category_id='.$category_id.'">' .$I18N->msg('simple_shop_copy') . '</a></td>';
 
-				echo '</tr>';
+
+      $article_status = '';
+      if ($article->getStatus() == 0) {
+        $article_status = '<a class="rex-offline" href="index.php?page=simple_shop&product_id='.$article->getId().'&function=online_article&category_id='.$category_id.'">' . $I18N->msg('simple_shop_status_offline') . '</a>';
+      }
+      elseif($article->getStatus() == 1) {
+        $article_status = '<a class="rex-online" href=index.php?page=simple_shop&product_id='.$article->getId().'&function=offline_article&category_id='.$category_id.'">' .$I18N->msg('simple_shop_status_online') . '</a>';
+      }
+      echo '<td>'.$article_status.'</td>';
+
+      echo '<td><a href="index.php?page=simple_shop&function=delete_article&product_id='.$article->getId().'&category_id='.$category_id.'" onclick="return confirm(\'' . $I18N->msg('simple_shop_product_really_delete') . '\')">' .$I18N->msg('simple_shop_delete') . '</a></td>';
+
+      echo '</tr>';
 		}
 	}
-	echo '</table>';
+	echo '</tbody></table>';
 }
 
-
-?>
+echo '</div>';

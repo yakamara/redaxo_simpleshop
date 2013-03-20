@@ -5,174 +5,151 @@
 
 class rex_shop_product_viewer
 {
+/*
+  // deprecated
   function showProductList($products, $recalcArticleId = false)
   {
-    global $REX;
-    
-    $c = 0;
-    $images_in_row = 3;
-    
-    $images = '';
-    foreach($products as $product)
-    {
-    
-      $c++;
-      
-      $class = '';
-      $clearer = '';
-      if ($c == '1')
-      {
-        $class = ' first';
-      }
-      if ($c == $images_in_row)
-      {
-        $c = 0;
-      }
-      
-      $class = $class != '' ? ' class="'.trim($class).'"' : '';
-      
-      $price_word = '';
-      $arr = $product->getPricesArray();
-      if(count($arr) > 1)
-      {
-        $price_word = 'ab ';
-      }
-      
-      $images .= '<li'.$class.'>
-                    <dl>
-                      <dt>
-                        <a href="'.$product->getDetailUrl($recalcArticleId).'">
-                          <img src="/index.php?rex_img_type=shoplist&rex_img_file='.$product->getImage().'" alt="'.htmlspecialchars($product->getName()).'" title="'.htmlspecialchars($product->getName()).'" />
-                        </a>
-                      </dt>
-                      <dd>
-                        <h3>
-                        <a class="title" href="'.$product->getDetailUrl($recalcArticleId).'">
-                        '.nl2br(htmlspecialchars($product->getName())).'
-                        </a>
-                        </h3>
-                        
-                        <span class="text">'.nl2br($product->getValue("description_short")).'</span>
-                        
-                        <a class="detail" href="'.$product->getDetailUrl($recalcArticleId).'">Details</a>
-                        
-                        <span class="price">'.$price_word.rex_shop_utils::formatPrice($product->getPrice()).'</span>
-                        
-                        
-                        <form action="'.rex_getUrl().'" method="post">
-                        <fieldset>
-                          <input type="hidden" name="product_id" value="'.$product->getId().'>" />
-                          <input type="hidden" name="func" value="add_product" />
-                          <input type="hidden" name="product_amount" value="1" />
-                          <input type="hidden" name="page" value="list" />
-                          <input type="submit" class="form-submit" name="add" value="In den Warenkorb legen" />
-                        </fieldset>
-                        </form>
-                      </dd>
-                    </dl>
-                  </li>
-               ';
-
-    }
-    
-    if (count($products)>0)
-    {
-      echo '<ul class="shop-productlist">'.$images.'</ul>';
-    }
-    else
-    {
-
-      echo '<p>Keine Produkte gefunden</p>';
-
-    }
+    echo self::getProductList($products, $recalcArticleId);
   }
+
+  // deprecated
+  function showProduct($product)
+  {
+    echo self::getProduct($product);
+  }
+*/
+
+
+  function showProductList($products, $recalcArticleId = false)
+  {
+    $return = '';
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('products', $products, false);
+    $fragment->setVar('article_id', $recalcArticleId, false);
+    $return .= $fragment->parse('productlist.tpl');
+
+    return $return;
+  }
+
 
   function showProduct($product)
   {
-  	// IMPORTANT: Veraendern der groesse des PopUps erfordert eine Aenderung im CSS!!!
-  	
-  	if ($product->getValue('status') > 0)
-  	{
-      $format   = $product->getValue('description_format') != '' ? '<h4>Format</h4><p>'.nl2br($product->getValue('description_format')).'</p>' : '';
-      $long     = $product->getValue('description_long') != '' ? '<h4>Beschreibung</h4><p>'.nl2br($product->getValue('description_long')).'</p>' : '';
-      $number   = $product->getValue("article_number") != '' ? '<dl class="articlenumber"><dt>Best.-Nr.</dt><dd>'.$product->getValue('article_number').'</dd></dl>' : '';
+    $return = '';
+
+    $fragment = new rex_fragment();
+    $fragment->setVar('product', $product, false);
+    $return .= $fragment->parse('product.tpl');
+
+    return $return;
+
+
+
+/*
+  // IMPORTANT: Veraendern der groesse des PopUps erfordert eine Aenderung im CSS!!!
+  global $article_id, $clang;
+?>
+<div class="prdct">
+
+    <p class="fl-lft">
+      <span class="prdct-img">
+        <span><a href="/files/<?php echo $product->getImage(); ?>" rel="lightbox[produkt]"><img src="index.php?rex_resize=119a__<?php echo $product->getImage(); ?>" alt="<?php echo htmlspecialchars($product->getName()); ?>" title="<?php echo htmlspecialchars($product->getName()); ?>" /><span>vergr&ouml;&szlig;ern</span></a></span>
+      </span>
       
-      $price = '';
-      $arr = $product->getPricesArray();
-      if(count($arr) > 1)
+      <?php
+      
+      if (count($product->getImages()))
       {
-        $price .= '<dl class="price price-diff">';
-        $price .= '<dt>Staffelpreis:</dt><dd><ul>';
-        foreach($arr as $pamount => $amount_price)
-        {
-         $price .= '<li>ab '. $pamount .' VE - '. rex_shop_utils::formatPrice($amount_price) .'*</li>';
-        }
-        $price .= '</ul></dd>';
-        $price .= '</dl>';
+      	echo '<span class="prdct-imgs">';
+      	foreach($product->getImages() as $image)
+      	{
+      	echo '<span><a href="/files/'.$image.'" rel="lightbox[produkt]"><img src="index.php?rex_resize=50a__'.$image.'" alt="" title="" /></a></span>';
+      	}
+      	echo '</span>';
+      
       }
-      else
-      {
-        $price .= '<dl class="price">';
-        $price .= '<dt>Preis:</dt><dd>'. rex_shop_utils::formatPrice($product->getPrice()) .'*</dd>';
-        $price .= '</dl>';
-      }
-      
-      
-      $quantity = '';
-      $quantity .= '<dl class="quantity"><dt><label>Menge:</label></dt><dd>';
-      $arr = $product->getAmountsArray();
-      if (count($arr) > 0)
-      {
-        $quantity .= '<select name="product_amount" id="amount">';
-        foreach($arr as $amount => $amount_desc)
-        {
-          $amount_text = $amount;
-          if (trim($amount_desc) != "")
-            $amount_text .= " ".trim($amount_desc);
-            
-          $quantity .= '<option value="'.$amount.'">'.$amount_text.'</option>';
-        }
-        $quantity .= '</select>';
-      }
-      else
-      {
-        $quantity .= '<input type="text" name="product_amount" value="1" size="3" maxlength="3" />';
-      }
-      $quantity .= '</dd></dl>';
-      
-      
-      
-      echo '
-        <div class="shop-detail">
-          <figure class="picture"><img src="/index.php?rex_img_type=shopdetail&rex_img_file='.$product->getImage().'" alt="'.htmlspecialchars($product->getName()).'" title="'.htmlspecialchars($product->getName()).'" /></figure>
-          
-          <div class="information">
-            <h3>'.$product->getName().'</h3>
-            '.$number.'
-            <form action="'.rex_getUrl().'" method="post">
-            <fieldset>
-              <input type="hidden" name="product_id" value="'.$product->getId().'>" />
-              <input type="hidden" name="func" value="add_product" />
-              
-              '.$price.$quantity.'
-              
-              <input type="submit" class="form-submit" name="search" value="In den Warenkorb legen" />
-              <p class="shipping">* Preis zzgl. <a href="javascript:getPopup(\''.rex_getUrl(52).'\');">Versandkosten</a></p>
-            </fieldset>
-            </form>
-          </div>
-          
-          <div class="description">
-            '.$long.$format.'
-          </div>
-          
-        </div>';
-        
-  	}
-  	else
-  	{
-  		echo '<p>Produkt wurde nicht gefunden</p>';
-  	}
+	  
+	  ?>
+    </p>
+
+    <div class="prdct-cntnt">
+
+      <div class="frm">
+      <form action="index.php" method="post">
+
+      <input type="hidden" name="article_id" value="<?php echo $article_id ?>" />
+      <input type="hidden" name="clang" value="<?php echo $clang ?>" />
+      <input type="hidden" name="product_id" value="<?php echo $product->getId(); ?>" />
+      <input type="hidden" name="func" value="add_product" />
+
+
+      <fieldset>
+        <div class="f-fldst">
+
+          <h3><?php echo $product->getName(); ?></h3>
+          <p><?php echo nl2br($product->getValue("description_short")); ?></p>
+
+          <p><b><?php echo nl2br($product->getValue("description_format")); ?></b></p>
+          <p><?php echo nl2br($product->getValue("description_long")); ?></p>
+
+          <p>
+              <?php
+              $arr = $product->getPricesArray();
+              if(count($arr) > 1)
+              {
+                echo '<strong>Staffelpreis:</strong><br />';
+                  foreach($arr as $pamount => $amount_price)
+                  {
+                    echo ' '. rex_shop_utils::formatPrice($amount_price) .' ab '. $pamount .' VE<br />';
+                  }
+              }
+              else
+              {
+                echo '<strong>Preis: '. rex_shop_utils::formatPrice($product->getPrice()) .'</strong><br />';
+              }
+              ?>
+            <span class="clr-2"><strong>Best.-Nr. <?php echo $product->getValue("article_number"); ?></strong></span>
+          </p>
+
+          <p class="f-slct">
+            <label for="amount">Menge:</label>
+            <?php
+
+              $arr = $product->getAmountsArray();
+              if (count($arr)==0)
+              {
+                echo '<input type="text" name="product_amount" value="1" size="3" maxlength="3" />';
+              }else
+              {
+                echo '<select name="product_amount" id="amount">';
+                foreach($arr as $amount => $amount_desc)
+                {
+                  $amount_text = $amount;
+                  if (trim($amount_desc) != "") $amount_text .= " ".trim($amount_desc);
+                  echo '<option value="'.$amount.'">'.$amount_text.'</option>';
+                }
+                echo '</select>';
+              }
+
+            ?>
+          </p>
+
+          <p>
+            Preis zzgl. Mwst. und Versandkosten <!--<a href="#">(?)</a>-->
+          </p>
+
+          <p class="f-sbmt-img">
+            <input type="image" name="search" src="/files/sbmt_bttn_bskt.gif" value="In den Warenkorb legen" />
+          </p>
+        </div>
+      </fieldset>
+      </form>
+      </div>
+    </div>
+
+    <div class="clearer"></div>
+  </div>
+  <?php
   }
 
   function showPreview($product)
@@ -195,7 +172,8 @@ class rex_shop_product_viewer
         echo '<a href="javascript:self.close();">
                 <img src="index.php?rex_resize='. $mode . $img .'" class="prdct-prvw" />
               </a>';
-    }    
+    }
+*/
   }
 }
 

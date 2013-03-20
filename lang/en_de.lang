@@ -1,0 +1,9 @@
+simple_shop = Shopsystem
+catverwaltung = Products
+bestverwaltung = Orders
+header_article = Article
+header_priority = Prio
+header_edit = edit
+header_status = status
+header_article_edit = Edit/Delete Article
+mainconfig = Mainconfig

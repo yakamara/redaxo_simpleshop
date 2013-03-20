@@ -22,7 +22,8 @@ class rex_shop_basket
 		$product = new rex_shop_product($pid);
 		if ($product->isValid())
 		{
-			$wk_product_amount = $_SESSION["wk"][$pid] + $product_amount;
+		  $amount = (int) @$_SESSION["wk"][$pid];
+			$wk_product_amount = $amount + $product_amount;
 			$_SESSION["wk"][$pid] = $product->getValidAmount($wk_product_amount);
 			return true;
 		}

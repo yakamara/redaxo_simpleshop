@@ -1,12 +1,8 @@
 simple_shop = Simple Shop
-catverwaltung = Produktverwaltung
-bestverwaltung = Bestellverwaltung
-header_article = Artikel
-header_relations = Produktrelationen
+
 header_priority = Prio
-header_edit = editieren
-header_status = status
-header_article_edit = Artikel editieren/l�schen
+
+header_article_edit = Artikel editieren/löschen
 mainconfig = Grundeinstellungen
 header_order_edit = Bestellung einsehen
 header_order = Bestellung
@@ -14,19 +10,18 @@ status_0 = eingegangen
 status_1 = in arbeit
 status_2 = erledigt
 status_3 = storniert
-header_relation_add = Relation hinzuf�gen
 
 error = Ein Fehler ist aufgetreten.
 product_added = Datensatz wurde angelegt
 product_saved = Datensatz wurde gespeichert
-product_deleted = Produkt wurde gel�scht
-back_overview = zur�ck zur �bersicht
+product_deleted = Produkt wurde gelöscht
+back_overview = zurück zur Übersicht
 languages = Sprachen
 please_choose_a_cat = Bitte eine Kategorie auswaehlen
-product_overview = Artikel�bersicht
-show = zeigen
-show_all = zeige alle
-show_wo_cat = zeige ohne Kategorie
+product_overview = Artikelübersicht
+show = Anzeigen
+show_all = Alle anzeigen
+show_wo_cat = Alle ohne Kategorie anzeigen
 
 edit_products = Artikel editieren
 products = Produkte
@@ -44,14 +39,174 @@ product_tax = MwSt. (in %) [z.B. 16.00]
 product_image = Image
 relations = Relationen
 relation = Relation
-relation_msg = Um Relationen anlegen zu k�nnen, m�ssen Sie das Produkt zuvor Speichern. Dr�cken Sie dazu '�bernehmen'.
+relation_msg = Um Relationen anlegen zu können, müssen Sie das Produkt zuvor Speichern. Drücken Sie dazu 'Übernehmen'.
 status = Status
 save_back = speichern
 save = uebernehmen
 
-instock = Sofort verf�gbar
-stockinfo = Lagerinfo (Verf�gbar in ..)
+instock = Sofort verfügbar
+stockinfo = Lagerinfo (Verfügbar in ..)
 
 date = Datum
 customer = Kunde
 orders = Bestellungen
+
+
+
+
+simple_shop_choose_category = Bitte Kategorie auswählen
+simple_shop_root_category_id = Hauptverzeichnis
+simple_shop_show = anzeigen
+simple_shop_show_all = alle anzeigen
+simple_shop_show_without_category = zeige ohne Kategorien
+
+
+simple_shop_save_settings = Einstellungen speichern
+
+simple_shop_config_updated = Konfigurationsdatei wurde aktualisiert.
+simple_shop_config_update_failed = Konfigurationsdatei konnte nicht aktualisiert werden.
+
+
+simple_shop_amount = Menge
+simple_shop_amount_group = Mindestbestellmengengruppe
+simple_shop_amount_group_add = Mindestbestellmenge hinzufügen
+simple_shop_amount_group_edit = Mindestbestellmenge editieren
+simple_shop_amount_group_deleted = Mindestbestellmenge gelöscht
+simple_shop_amount_group_has_not_been_deleted = Mindestbestellmenge wurde nicht gelöscht
+simple_shop_amount_group_really_delete = Mindestbestellmenge wirklich löschen?
+simple_shop_amount_groups = Mindestbestellmengengruppen
+simple_shop_amount_groups_amount = Mindestens diese Menge
+simple_shop_amount_groups_amount_error = Bitte geben Sie die Mindestmenge ein
+simple_shop_amount_groups_name_error = Bitte geben Sie die Gruppenbezeichnung ein
+simple_shop_amount_groups_description_error = Bitte geben Sie die Gruppenbeschreibung ein
+simple_shop_amount_per_order = Anzahl bei einer Bestellung
+simple_shop_article_id_basket = Warenkorb Id
+simple_shop_article_id_cancellation_policy = Widerufsbelehrung
+simple_shop_article_id_shipping_rates = Versandkosten Id
+simple_shop_article_id_terms_and_conditions = AGBs
+
+simple_shop_back_to_overview = zurück zur Produktauswahl
+simple_shop_basket_error_amount_group = Die Mindestbestellmenge der Produktgruppe "{0}" liegt bei "{1}" VE, die Sie aus den einzelnen Produkten dieser Gruppe auswählen können.
+simple_shop_basket_error_max_order = Bitte beachten Sie die maximale Bestellmenge von {0} VE bei "{1}"
+simple_shop_basket_error_min_order = Bitte beachten Sie die minimale Bestellmenge von {0} VE bei "{1}"
+simple_shop_basket_header_amount = Anzahl
+simple_shop_basket_header_delete =
+simple_shop_basket_header_image =
+simple_shop_basket_header_name = Artikel
+simple_shop_basket_header_total_price = Gesamtpreis
+simple_shop_basket_header_unit_price = Einzelpreis
+simple_shop_basket_header_vat = MwSt.
+simple_shop_basket_is_empty = Warenkorb ist leer, daher kann keine Bestellung abgeschickt werden
+simple_shop_basket_summary_grandtotal = Gesamtpreis inkl. MwSt.**
+simple_shop_basket_summary_gross = Gesamtpreis brutto
+simple_shop_basket_summary_include_vat = inkl. MwSt.
+simple_shop_basket_summary_net = Gesamtpreis netto
+simple_shop_basket_summary_shipping = zzgl. Porto und Verpackung
+simple_shop_basket_summary_vat = MwSt.
+simple_shop_basket_summary_vat_information = ** Mehrwertsteuer wird auf der Rechnung ausgewiesen
+simple_shop_basket_update = Warenkorb aktualisieren
+simple_shop_basket_updated = Warenkorb wurde aktualisiert!
+
+simple_shop_categories = Kategorien
+simple_shop_copy = kopieren
+
+simple_shop_delete = löschen
+simple_shop_description = Beschreibung
+simple_shop_description_of_the_format = Beschreibung des Formates
+simple_shop_discount_group = Rabattgruppe
+simple_shop_discount_group_add = Rabattgruppe hinzufügen
+simple_shop_discount_group_edit = Rabattgruppe editieren
+simple_shop_discount_group_deleted = Rabattgruppe gelöscht
+simple_shop_discount_group_has_not_been_deleted = Rabattgruppe wurde nicht gelöscht
+simple_shop_discount_group_really_delete = Produkt wirklich löschen?
+simple_shop_discount_groups = Rabattgruppen
+simple_shop_discount_groups_amount = Mindestens diese Menge
+simple_shop_discount_groups_discount_percent = Rabatt in Prozent
+simple_shop_discount_groups_discount_value = Rabatt als festen Betrag
+simple_shop_discount_groups_price = Mindestens dieser Preis
+simple_shop_discount_groups_if = Wenn folgendes erreicht wurde
+simple_shop_discount_groups_else = Dann folgenden Rabatt geben
+
+simple_shop_edit = editieren
+
+simple_shop_forms = Formulare
+
+simple_shop_gross_prices = Bruttopreise
+
+simple_shop_header_article = Artikel
+simple_shop_header_edit = Editieren
+simple_shop_header_functions = Funktionen
+simple_shop_header_priority = Prio
+simple_shop_header_relation_add = Relation hinzufügen
+simple_shop_header_relations = Produktrelationen
+simple_shop_header_status = Status
+simple_shop_header_status_function = Status/Funktion
+        
+simple_shop_image = Bild
+simple_shop_images = Bilder
+
+simple_shop_keywords = Suchbegriffe
+
+simple_shop_long_description = Langbeschreibung
+
+simple_shop_message_amount_group_added = Mindestbestellmenge wurde hinzugefügt
+simple_shop_message_amount_group_updated = Mindestbestellmenge wurde aktualisiert
+simple_shop_message_discount_group_added = Rabattgruppe wurde hinzugefügt
+simple_shop_message_discount_group_updated = Rabattgruppe wurde aktualisiert
+simple_shop_message_product_added = Produkt wurde hinzugefügt
+simple_shop_message_product_updated = Produkt wurde aktualisiert
+simple_shop_message_updated = Vielen Dank für die Aktualisierung
+simple_shop_module_relationlist_scheme = Schema
+simple_shop_module_relationlist_scheme_note = Anzeige des Produktnames (max. 150 Zeichen werden ausgegeben), <br />###Platzhalter### sind die DB-Felder, <br />Bspl. ###name###, ###description_short###
+simple_shop_modules = Module
+
+simple_shop_name = Name
+simple_shop_net_prices = Nettopreise
+simple_shop_no_selection = keine Auswahl
+
+simple_shop_or = oder
+simple_shop_order_amounts = Auswahlmöglichkeiten bei Anzahl
+simple_shop_order_management = Bestellverwaltung
+simple_shop_order_max = maximale Anzahl
+simple_shop_order_min = geringste Anzahl
+simple_shop_other = Sonstiges
+
+simple_shop_package_unit = VE / Verpackungseinheit
+simple_shop_price_per_package_unit = Preis/VE
+simple_shop_price_label = (Staffel)preise in Euro z.B. "11.23"
+simple_shop_price_type = Preis sind
+simple_shop_prices = Preise
+simple_shop_priority = Priorität
+simple_shop_product = Produkt
+simple_shop_product_code = Produkt/Bestellnummer
+simple_shop_product_deleted = Produkt wurde gelöscht
+simple_shop_product_edit = Produkt editieren
+simple_shop_product_has_not_been_deleted = Produkt wurde nicht gelöscht
+simple_shop_product_management = Produktverwaltung
+simple_shop_product_name = Produktbezeichnung
+simple_shop_product_overview = Produktübersicht
+simple_shop_product_really_delete = Produkt wirklich löschen?
+
+simple_shop_refresh_seconds = Weiterleitung in x Sek.
+
+simple_shop_shipping_rates_with_example = Versandkosten (Bsp. 3.20)
+simple_shop_settings = Einstellungen
+simple_shop_short_description = Kurzbeschreibung
+simple_shop_status_offline = offline
+simple_shop_status_online = online
+
+simple_shop_tax = Steuersatz
+simple_shop_tax_rates = Steuersätze
+simple_shop_tax_rates_with_example = Steuersätze (19%=19;7%=7)
+
+simple_shop_vat = Mehrwertsteuer
+
+
+simple_shop_redirect = Sie werden in {0} Sekunde(n) weitergeleitet. Alternativ können Sie <a href="{1}">hier</a> klicken.
+
+
+// Fehlermeldungen
+simple_shop_error = Ein Fehler ist aufgetreten.
+
+simple_shop_discount_group_name_error = Bitte geben Sie eine Gruppenbezeichnung ein
+simple_shop_product_name_error = Bitte geben Sie die Produktbezeichnung ein

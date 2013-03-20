@@ -1,0 +1,36 @@
+Liebe Kundin, lieber Kunde,
+
+wir bedanken uns für Ihre Bestellung im unseren Webshop des Simple Shop.
+Für Ihren Auftrag haben wir folgende Kontakt- und Lieferangaben vermerkt:
+
+Auftraggeber
+Vorname/Nachname: ###anrede### ###titel### ###vorname### ###name###
+Straße, Hausnummer: ###strasse###
+PLZ, Ort: ###plz### ###ort###
+Tel.: ###telefon###
+Fax: ###telefax###
+
+E-Mail: ###email###
+
+Lieferadresse:
+Vorname/Nachname: ###liefer_anrede### ###liefer_titel### ###liefer_vorname### ###liefer_name###
+Straße, Hausnummer: ###liefer_strasse###
+PLZ, Ort: ###liefer_plz### ###liefer_ort###
+
+
+Folgende Produkte werden wir baldmöglichst an Sie liefern:
+###SimpleShopItems###
+
+Bemerkung:
+###bemerkung###
+
+
+Wir liefern nur nach Vorkasse mit Rechnung. Die Rechnung erhalten Sie in einer seapraten E-Mail. Erst nach Begleichung dieser Rechnung, werden wir die Ware umgehend an Sie ausliefern.
+
+Sollten Sie noch weitere Fragen oder Anmerkungen zu Ihrer Bestellung haben erreichen Sie unsere Serviceline telefonisch unter
+Tel.  0123 / 456789 oder per E-Mail an shop@domain.de.
+
+Vielen Dank für Ihre Bestellung.
+
+Mit freundlichen Grüßen
+
